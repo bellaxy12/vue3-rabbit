@@ -2,7 +2,8 @@
 </script>
 
 <template>
-   <el-button type="primary">Test</el-button>
+   <!-- 一级路由出口 -->
+   <router-view></router-view>
 </template>
 
 <style scoped>
