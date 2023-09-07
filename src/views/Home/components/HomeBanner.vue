@@ -1,0 +1,1 @@
+<template>我是轮播banner</template>
