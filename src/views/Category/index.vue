@@ -1,19 +1,20 @@
-{}<script setup>
+<script setup>
 import { getTopCategoryAPI } from '@/apis/category.js'
 import { getBannerAPI } from '@/apis/home'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import GoodsItem from '../Home/components/GoodsItem.vue'
 const route = useRoute()
 const categoryData = ref({})
 // const routeParam = ref(route.params.id)
 const getCategory = async () => {
   const { result } = await getTopCategoryAPI(route.params.id)
-  console.log(result)
+  // console.log(result)
   categoryData.value = result
 }
 const bannerList = ref([])
 const getBanner = async () => {
-  const res = await getBannerAPI({distributionSite: '2'})
+  const res = await getBannerAPI({ distributionSite: '2' })
   bannerList.value = res.result
   // console.log(bannerList.value);
 }
@@ -38,6 +39,26 @@ getCategory()
             <img :src="item.imgUrl" alt="">
           </el-carousel-item>
         </el-carousel>
+      </div>
+      <!-- 分类模板 -->
+      <div class="sub-list">
+        <h3>全部分类</h3>
+        <ul>
+          <li v-for="i in categoryData.children" :key="i.id">
+            <RouterLink to="/">
+              <img :src="i.picture" />
+              <p>{{ i.name }}</p>
+            </RouterLink>
+          </li>
+        </ul>
+      </div>
+      <div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
+        <div class="head">
+          <h3>- {{ item.name }}-</h3>
+        </div>
+        <div class="body">
+          <GoodsItem v-for="good in item.goods" :good="good" :key="good.id" />
+        </div>
       </div>
     </div>
   </div>
@@ -122,6 +143,7 @@ getCategory()
     padding: 25px 0;
   }
 }
+
 .home-banner {
   width: 1240px;
   height: 500px;
