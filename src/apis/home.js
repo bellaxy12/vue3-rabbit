@@ -5,8 +5,13 @@ import httpInstance from "@/utils/http";
  *@Param: {*}
  *@Date: 2023-09-07 16:52:35
 */
-export const getBannerAPI = () => {
-  return httpInstance.get('/home/banner')
+export const getBannerAPI = (params = {}) => {
+  const { distributionSite = '1' } = params
+  return httpInstance.get('/home/banner',{
+    params: {
+      distributionSite
+    }
+  })
 }
 
 /**
