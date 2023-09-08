@@ -4,11 +4,15 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import DetailHot from './components/DetailHot.vue'
 import ImageView from '@/components/ImageView/index.vue'
+import XtxSku from  '@/components/XtxSku/index.vue'
 const route = useRoute()
 const goods = ref({})
 const getGoodsDetail = async () => {
   const { result } = await getDetail(route.params.id)
   goods.value = result
+}
+const onChange = (sku) => {
+  console.log(sku);
 }
 getGoodsDetail()
 </script>
@@ -81,7 +85,7 @@ getGoodsDetail()
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <XtxSku :goods="goods" @change="onChange"></XtxSku>
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
