@@ -30,7 +30,16 @@ const onTabChange = () => {
   reqData.value.page  = 1
   getGoodList()
 }
-
+// 无限加载实现
+const disabled = ref(false)
+const load = async () => {
+  reqData.value.page++
+  const { result } = await getSubCategoryAPI(reqData.value)
+  goodsList.value.items = [...goodsList.value.items, ...result.items]
+  if(result.items.length === 0) {
+    disabled.value = true
+  }
+}
 getGoodList()
 </script>
 
@@ -51,7 +60,7 @@ getGoodList()
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+      <div v-infinite-scroll="load" :infinite-scroll-disabled="disabled" class="body">
          <!-- 商品列表-->
          <GoodsItem v-for="item in goodsList.items" :key="item.id" :good="item"></GoodsItem>
       </div>
