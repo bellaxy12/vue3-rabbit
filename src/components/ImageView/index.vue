@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useMouseInElement } from '@vueuse/core'
 // 图片列表 
 const imageList = [
   "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
@@ -8,20 +9,50 @@ const imageList = [
   "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
   "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
 ]
+// 小图切换大图显示
 const currentIndex = ref(0)
 const onEnter = (i) => {
   currentIndex.value = i
 }
+// 鼠标移动滑块跟随
+const target = ref()
+const { elementX, elementY, isOutside } = useMouseInElement(target)
+const left = ref(0)
+const top = ref(0)
+watch([elementX, elementY, isOutside], () => {
+  // console.log('鼠标移动了')
+  if(isOutside.value) return
+  // console.log('在区域内')
+  // 横向
+  if(elementX.value > 100 && elementX.value < 300) {
+    left.value = elementX.value - 100
+  }
+  // 纵向
+  if(elementY.value > 100 && elementY.value < 300) {
+    top.value = elementY.value - 100
+  }
+
+  // 处理边界
+  if(elementX.value > 300 || elementX.value < 100) {
+    left.value = elementX.value > 300 ? 200 : 0
+  }
+  if(elementY.value > 300 || elementY.value < 100) {
+    top.value = elementY.value > 300 ? 200 : 0
+  }
+
+})
+
 </script>
 
 
 <template>
   <div class="goods-image">
     <!-- 左侧大图-->
+    <!-- {{ elementX }} {{ elementY }} {{ isOutside }} -->
     <div class="middle" ref="target">
       <img :src="imageList[currentIndex]" alt="" />
       <!-- 蒙层小滑块 -->
-      <div class="layer" :style="{ left: `0px`, top: `0px` }"></div>
+      <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
     </div>
     <!-- 小图列表 -->
     <ul class="small">
