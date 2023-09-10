@@ -1,10 +1,10 @@
 <script setup>
 // 表单校验
-import { loginAPI } from '@/apis/login.js'
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user.js'
 // 1.表单数据对象
 const form = ref({
   account: '',
@@ -29,13 +29,14 @@ const rules = {
     }
   ]
 }
+const userStore = useUserStore()
 const router = useRouter()
 const formRef = ref(null)
 const onLogin = () => {
   formRef.value.validate( async (valid) => {
     if (valid) {
       const { account, password } = form.value
-      await loginAPI({ account, password })
+      await userStore.getUserInfo({ account, password })
       ElMessage({ type: 'success', message: '登录成功' })
       router.replace({ path: '/' })
     }
