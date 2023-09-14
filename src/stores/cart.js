@@ -21,6 +21,7 @@ export const useCartStore = defineStore('cart', () => {
     const idx = cartList.value.findIndex((item) => item.skuId === id)
     cartList.value.splice(idx, 1)
   }
+
 // 计算商品总数
   const allCount = computed(() => cartList.value.reduce((sum, cur) => sum + cur.count, 0))
 // 计算商品总价
@@ -30,13 +31,21 @@ export const useCartStore = defineStore('cart', () => {
     const item = cartList.value.find((item) => item.skuId === skuId)
     item.selected = selected
   }
+// 全选
+  const isAll = computed(() => cartList.value.every(item => item.selected))
+  // 单选全选联动
+  const allCheck = (selected) => {
+    cartList.value.forEach(item => item.selected = selected)
+  }
   return {
     cartList,
     addCart,
     delCart,
     allCount,
     allPrice,
-    singleCheck
+    singleCheck,
+    isAll,
+    allCheck
   }
 }, {
   persist: true

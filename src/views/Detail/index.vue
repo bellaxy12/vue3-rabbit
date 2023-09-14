@@ -36,6 +36,7 @@ const addCart = () => {
       attrsText: skuObj.spacsText,
       selected: true
     })
+    ElMessage.success('添加成功')
   } else {
     ElMessage.warning('请选择商品规格')
   }
