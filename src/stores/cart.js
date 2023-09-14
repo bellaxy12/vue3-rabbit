@@ -25,11 +25,19 @@ export const useCartStore = defineStore('cart', () => {
   const allCount = computed(() => cartList.value.reduce((sum, cur) => sum + cur.count, 0))
 // 计算商品总价
   const allPrice = computed(() => cartList.value.reduce((sum, cur) => sum + cur.count * cur.price, 0))
+// 单选回调
+  const singleCheck = (skuId, selected) => {
+    const item = cartList.value.find((item) => item.skuId === skuId)
+    item.selected = selected
+  }
   return {
     cartList,
     addCart,
     delCart,
     allCount,
-    allPrice
+    allPrice,
+    singleCheck
   }
+}, {
+  persist: true
 })
