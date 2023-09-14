@@ -10,6 +10,15 @@ const getCheckoutInfo = async () => {
   curAddress.value = checkInfo.value.userAddresses.find(item => item.isDefault === 0)
 }
 const showDialog = ref(false)
+const activeAddress = ref({})
+const switchAddress = (item) => {
+  activeAddress.value = item
+}
+const confirm = () => {
+  curAddress.value = activeAddress.value
+  showDialog.value = false
+  activeAddress.value = {}
+}
 getCheckoutInfo()
 
 </script>
@@ -114,7 +123,7 @@ getCheckoutInfo()
   <!-- 切换地址 -->
   <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
   <div class="addressWrapper">
-    <div class="text item" v-for="item in checkInfo.userAddresses"  :key="item.id">
+    <div class="text item" @click="switchAddress(item)" :class="{ active: item.id === activeAddress.id}" v-for="item in checkInfo.userAddresses"  :key="item.id">
       <ul>
       <li><span>收<i />货<i />人：</span>{{ item.receiver }} </li>
       <li><span>联系方式：</span>{{ item.contact }}</li>
@@ -125,7 +134,7 @@ getCheckoutInfo()
   <template #footer>
     <span class="dialog-footer">
       <el-button>取消</el-button>
-      <el-button type="primary">确定</el-button>
+      <el-button type="primary" @click="confirm">确定</el-button>
     </span>
   </template>
 </el-dialog>
