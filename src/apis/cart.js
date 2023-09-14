@@ -18,3 +18,8 @@ export const delCartAPI = (ids) => {
     }
   })
 }
+
+// 合并购物车
+export const mergeCartAPI = (data) => {
+  return httpInstance.post('/member/cart/merge', data)
+}
