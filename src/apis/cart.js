@@ -10,3 +10,11 @@ export const insertCartAPI = ({ skuId, count }) => {
 export const getNewCartAPI = () => {
   return httpInstance.get('/member/cart')
 }
+// 根据id删除商品
+export const delCartAPI = (ids) => {
+  return httpInstance.delete('/member/cart', {
+    data: {
+      ids
+    }
+  })
+}
