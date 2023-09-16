@@ -5,3 +5,11 @@ import httpInstance from "@/utils/http";
  * @returns 
  */
 export const loginAPI = (data) => httpInstance.post("/login", data);
+
+export const getLikeListAPI = ({ limit = 4 }) => {
+  return httpInstance.get('/goods/relevant', {
+    params: {
+      limit
+    }
+  })
+}
