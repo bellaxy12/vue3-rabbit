@@ -2,6 +2,7 @@
 import { getOrderAPI } from '@/apis/pay';
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
+// 获取订单详情
 const route = useRoute()
 const payInfo = ref({})
 const getPayInfo = async () => {
@@ -10,6 +11,11 @@ const getPayInfo = async () => {
 }
 getPayInfo()
 
+// 支付功能实现
+const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+const backURL = 'http://localhost:5173/paycallback'
+const redirectUrl = encodeURIComponent(backURL)
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 
 
