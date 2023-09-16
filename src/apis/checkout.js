@@ -3,3 +3,10 @@ import httpInstance from '@/utils/http.js'
 export const getCheckoutInfoAPI = () => {
   return httpInstance.get('/member/order/pre')
 }
+
+// 创建订单
+
+// 创建订单
+export const createOrderAPI = (data) => {
+  return httpInstance.post('/member/order', data)
+}
